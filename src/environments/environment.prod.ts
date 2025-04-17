@@ -1,0 +1,6 @@
+export const environment = {
+  production: true,
+  ENCRYPTION_KEY: 'ENCRYPTION_KEY',
+  STORAGE_KEY: 'STORAGE_KEY',
+  TASK_REPOSITORY_TOKEN: 'TASK_REPOSITORY_TOKEN'
+};

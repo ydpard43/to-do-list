@@ -1,0 +1,10 @@
+# Ignorar node_modules
+node_modules/
+dist/
+platforms/
+plugins/
+
+# Ignorar archivos generados
+package-lock.json
+coverage/
+www/
