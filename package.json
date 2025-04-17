@@ -17,6 +17,7 @@
     "@angular/common": "^18.0.0",
     "@angular/compiler": "^18.0.0",
     "@angular/core": "^18.0.0",
+    "@angular/fire": "18.0.1",
     "@angular/forms": "^18.0.0",
     "@angular/platform-browser": "^18.0.0",
     "@angular/platform-browser-dynamic": "^18.0.0",
@@ -44,6 +45,7 @@
     "@angular/compiler-cli": "^18.0.0",
     "@angular/language-service": "^18.0.0",
     "@capacitor/cli": "6.1.2",
+    "firebase": "10.13.2",
     "@ionic/angular-toolkit": "^11.0.1",
     "@types/crypto-js": "^4.2.2",
     "@types/jasmine": "~5.1.0",
@@ -80,7 +82,9 @@
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-ionic-webview": {},
-      "cordova-plugin-ionic-keyboard": {}
+      "cordova-plugin-ionic-keyboard": {},
+      "cordova-plugin-firebase-remoteconfig": {},
+      "cordova-plugin-firebase": {}
     },
     "platforms": [
       "android",
