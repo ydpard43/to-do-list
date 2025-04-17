@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { TaskService } from '../application/services/task.service';
+import { TaskService } from '../../application/services/task.service';
 import { Observable } from 'rxjs';
-import { RemoteConfigService } from '../infrastructure/services/remote-config/remote-config.service';
+import { RemoteConfigService } from '../../infrastructure/services/remote-config/remote-config.service';
+import { Config } from '@ionic/angular';
+import { HOME_CONFIG } from './home.config';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +19,7 @@ export class HomePage implements OnInit {
   public filterCategoryId: string = '';
   public isModalOpen = false;
   public currentDate: Date = new Date();
+  public config = HOME_CONFIG;
 
   constructor(private taskService: TaskService, private remoteConfigService: RemoteConfigService) { }
 

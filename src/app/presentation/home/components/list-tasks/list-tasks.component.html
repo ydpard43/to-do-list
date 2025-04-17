@@ -1,0 +1,38 @@
+<ion-grid>
+  <ion-row>
+    <ion-col size="12" size-md="6" size-lg="4" *ngFor="let task of filteredTasks">
+      <ion-card class="task-card" (click)="openEditTaskModal(task)">
+        <ion-card-content>
+          <div class="task-content">
+            <div class="task-details">
+              <h2 class="task-title" [ngClass]="{ completed: task.status === config.STATUS.COMPLETED }">
+                {{ task.title }}
+              </h2>
+              <p class="task-category">{{ task.categoryId || config.TEXTS.NO_CATEGORY }}</p>
+            </div>
+            <div class="task-actions">
+              <ion-checkbox
+                class="task-checkbox"
+                [checked]="task.status === config.STATUS.COMPLETED"
+                (ionChange)="toggleCompletion(task); $event.stopPropagation()"
+              ></ion-checkbox>
+            </div>
+          </div>
+          <div class="task-separator"></div>
+          <div class="task-footer">
+            <p class="task-date">{{ task.date | date }}</p>
+            <ion-button
+              *ngIf="allowTaskDeletion"
+              (click)="presentDeleteConfirm(task); $event.stopPropagation()"
+              color="danger"
+              fill="clear"
+              class="delete-button"
+            >
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>
