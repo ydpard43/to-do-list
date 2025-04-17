@@ -1,0 +1,26 @@
+<ion-grid>
+  <ion-row class="header-content">
+    <ion-col size="12" size-md="6" class="app-title">
+      <h1>{{ config.TEXTS.WELCOME }}</h1>
+      <p class="current-date">{{ currentDate | date: 'fullDate' }}</p>
+    </ion-col>
+    <ion-col size="12" size-md="6" class="button-container">
+      <ion-button
+        fill="outline"
+        color="success"
+        class="new-task-button"
+      >
+        <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+        {{ config.BUTTONS.ADD_TASK.TEXT }}
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-content>
+  <app-list-tasks
+    [filterCategoryId]="filterCategoryId"
+    [allowTaskDeletion]="allowTaskDeletion$ | async"
+    [allowTaskUpdate]="allowTaskUpdate$ | async"
+  ></app-list-tasks>
+</ion-content>
