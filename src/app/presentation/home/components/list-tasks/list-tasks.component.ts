@@ -79,7 +79,7 @@ export class ListTasksComponent implements OnInit {
 
   public async presentDeleteConfirm(task: Task) {
     const alert = await this.alertController.create({
-      header: this.config.TEXTS.DELETE_CONFIRM_MESSAGE,
+      header: this.config.TEXTS.DELETE_CONFIRM_TITLE,
       message: `${this.config.TEXTS.DELETE_CONFIRM_MESSAGE.replace('{title}', task.title).replace('{category}', task.categoryId || this.config.TEXTS.NO_CATEGORY)}`,
       cssClass: 'custom-alert',
       buttons: [

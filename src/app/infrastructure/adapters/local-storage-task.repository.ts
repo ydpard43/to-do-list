@@ -36,7 +36,7 @@ export class LocalStorageTaskRepository implements TaskRepository {
             new Task(
               taskData.id,
               taskData.title,
-              taskData.completed,
+              taskData.status,
               taskData.categoryId
             )
         )

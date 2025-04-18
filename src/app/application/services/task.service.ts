@@ -9,12 +9,12 @@ import { TaskStatus } from 'src/app/domain/models/task.-status.enum';
   providedIn: 'root',
 })
 export class TaskService {
-  
+
   constructor(
     @Inject(TASK_REPOSITORY_TOKEN) private taskRepository: TaskRepository
-  ) {}
+  ) { }
 
-  
+
   addTask(
     title: string,
     categoryId?: string,
@@ -33,23 +33,18 @@ export class TaskService {
     return newTask;
   }
 
-  
+
   deleteTask(taskId: string): void {
     this.taskRepository.delete(taskId);
   }
 
  
   toggleTaskCompletion(task: Task): void {
-    if (task.status === TaskStatus.Completed) {
-      task.setStatus(TaskStatus.Pending);
-    } else {
-      task.setStatus(TaskStatus.Completed);
-    }
-
+    task.setStatus(task.status === TaskStatus.Completed ? TaskStatus.Pending : TaskStatus.Completed);
     this.taskRepository.save(task);
   }
 
- 
+
   updateTask(taskId: string, updatedData: Partial<Task>): Task | undefined {
     const task = this.taskRepository.findById(taskId);
     if (task) {
@@ -70,6 +65,6 @@ export class TaskService {
   }
 
   private generateId(): string {
-    return Math.random().toString(36).substr(2, 9);
+    return crypto.randomUUID();
   }
 }

@@ -10,7 +10,7 @@ export class Task {
     public date?: string
   ) { }
 
-  setStatus(status: TaskStatus) {
+  setStatus(status: TaskStatus) : void {
     this.status = status
   }
 }
