@@ -6,6 +6,7 @@
     </ion-col>
     <ion-col size="12" size-md="6" class="button-container">
       <ion-button
+        (click)="setOpen(true)"
         fill="outline"
         color="success"
         class="new-task-button"
@@ -18,6 +19,29 @@
 </ion-grid>
 
 <ion-content>
+  <ion-modal
+    [isOpen]="isModalOpen"
+    (ionModalDidDismiss)="setOpen(false)"
+    class="custom-modal"
+  >
+    <ng-template>
+      <ion-header>
+        <ion-toolbar class="no-shadow-toolbar">
+          <ion-button
+            color="danger"
+            fill="clear"
+            slot="end"
+            (click)="setOpen(false)"
+          >
+            <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+          </ion-button>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <app-add-tasks (addTask)="addTask($event)"></app-add-tasks>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
   <app-list-tasks
     [filterCategoryId]="filterCategoryId"
     [allowTaskDeletion]="allowTaskDeletion$ | async"
