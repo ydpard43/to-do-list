@@ -27,7 +27,7 @@ export class ListTasksComponent implements OnInit {
   constructor(
     private taskService: TaskService,
     private alertController: AlertController
-  ) {}
+  ) { }
 
   public ngOnInit() {
     this.loadTasks();
@@ -39,7 +39,7 @@ export class ListTasksComponent implements OnInit {
 
   public loadTasks() {
     this.page = 0;
-    this.tasks = this.taskService.getTasks(0, this.pageSize);
+    this.tasks = this.taskService.getTasks(0, this.pageSize) || [];
     this.totalTasks = this.tasks.length;
     this.applyFilter();
   }
