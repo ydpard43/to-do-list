@@ -11,17 +11,191 @@
 @import '@ionic/angular/css/text-transformation.css';
 @import '@ionic/angular/css/flex-utils.css';
 
-@import '@ionic/angular/css/palettes/dark.system.css';
+.custom-modal {
+  --max-width: 300px;
+  --max-height: 356px;
+  --border-radius: 14px;
+}
 
-.no-shadow-toolbar {
+.custom-modal-category {
+  --max-width: 300px;
+  --max-height: 290px;
+  --border-radius: 14px;
+}
+
+ion-select {
+  min-height: 34px;
+  --border-color: lightgray;
+  --border-radius: 10px;
+  background: #f9fbfd;
+  --highlight-color: rgb(128, 128, 128);
+}
+
+ion-header {
   --box-shadow: none;
 }
 
-.custom-modal {
-  --border-radius: 10px;
+ion-modal + ion-modal {
+  --backdrop-opacity: 0.5 !important;
 }
 
-ion-modal {
-  --max-height: 320px;
-  padding: 20px;
+ion-datetime-button::part(native) {
+  width: 100%;
+}
+
+ion-button {
+  --background-hover: transparent;
+  --background-hover-opacity: 0;
+}
+
+.ion-valid.sc-ion-input-md-h {
+  --highlight-color: transparent;
+}
+
+ion-input.ion-valid {
+  --highlight-color: transparent;
+}
+
+ion-input.ion-valid input,
+ion-input.ion-valid textarea {
+  caret-color: #000 !important;
+}
+
+.modal-header-enhanced {
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+
+  .enhanced-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    ion-title {
+      text-align: center;
+      font-size: 17px;
+      font-weight: 600;
+      color: #1e293b;
+
+      .title-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        ion-label {
+          font-size: 16px;
+          font-weight: 600;
+        }
+
+        .header-icon {
+          font-size: 20px;
+          color: #3b82f6;
+        }
+      }
+    }
+  }
+}
+
+.item-container {
+  padding: 4px 20px;
+
+  .item {
+    margin-top: 10px;
+  }
+
+  ion-label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #1e293b;
+  }
+
+  ion-input {
+    margin-top: 6px;
+    border-radius: 10px;
+    --padding-start: 14px;
+    background-color: #f9fbfd;
+    border: 1px solid #d6dce5;
+    min-height: 34px;
+  }
+
+  .category-item {
+    position: relative;
+    div {
+      margin-top: 6px;
+    }
+    .clear-select-btn {
+      position: absolute;
+      top: 24px;
+      right: 10px;
+      background: #f9fbfd;
+      z-index: 4;
+      ion-icon {
+        font-size: 20px;
+      }
+    }
+  }
+
+  .date-item {
+    position: relative;
+
+    .date-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border: 1px solid #d6dce5;
+      background-color: #f9fbfd;
+      margin-top: 6px;
+      border-radius: 10px;
+      cursor: pointer;
+
+      .date-helper {
+        font-size: 15px;
+        color: #475569;
+      }
+
+      .calendar-icon {
+        font-size: 20px;
+        color: #3b82f6;
+        pointer-events: none;
+      }
+    }
+
+    .invisible-date-input {
+      position: absolute;
+      width: 100%;
+      opacity: 0;
+      cursor: pointer;
+      margin-top: 16px;
+    }
+  }
+}
+
+.btn-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  button {
+    background: none;
+    border: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 20px;
+    transition: all 0.2s ease-in-out;
+    color: white;
+  }
+
+  button.add {
+    background-color: var(--ion-color-primary);
+    box-shadow: 0 2px 6px rgba(0, 123, 255, 0.2);
+  }
+
+  button.close {
+    background-color: var(--ion-color-danger);
+    box-shadow: 0 2px 6px rgba(0, 123, 255, 0.2);
+  }
 }
