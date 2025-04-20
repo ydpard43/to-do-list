@@ -1,24 +1,48 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FilterCategoriesComponent } from './filter-categories.component';
 import { IonicModule } from '@ionic/angular';
 
-import { FilterTasksComponent } from './filter-tasks.component';
+describe('FilterCategoriesComponent', () => {
+  let component: FilterCategoriesComponent;
+  let fixture: ComponentFixture<FilterCategoriesComponent>;
 
-describe('FilterTasksComponent', () => {
-  let component: FilterTasksComponent;
-  let fixture: ComponentFixture<FilterTasksComponent>;
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ FilterTasksComponent ],
-      imports: [IonicModule.forRoot()]
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [FilterCategoriesComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(FilterTasksComponent);
+    fixture = TestBed.createComponent(FilterCategoriesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it(`Given a filter query with extra spaces and uppercase,
+      When onFilterChange is called,
+      Then it should emit the trimmed and lowercase string`, () => {
+    // Arrange
+    spyOn(component.filterCategory, 'emit');
+    component.filterQuery = '  Hello World ';
+
+    // Act
+    component.onFilterChange();
+
+    // Assert
+    expect(component.filterCategory.emit).toHaveBeenCalledWith('hello world');
+  });
+
+  it(`Given a non-empty filter query,
+      When clearFilter is called,
+      Then it should clear the input and trigger a new filter`, () => {
+    // Arrange
+    spyOn(component, 'onFilterChange');
+    component.filterQuery = 'Something';
+
+    // Act
+    component.clearFilter();
+
+    // Assert
+    expect(component.filterQuery).toBe('');
+    expect(component.onFilterChange).toHaveBeenCalled();
   });
 });
