@@ -1,0 +1,38 @@
+<ion-grid>
+  <ion-row>
+    <ion-col
+      size="12"
+      size-md="6"
+      size-lg="4"
+      *ngFor="let category of filteredCategories"
+    >
+      <ion-card class="category-card" (click)="openEditCategoryModal(category)">
+        <ion-card-content>
+          <div class="category-header">
+            <div class="category-title">
+              <ion-icon class="folder-icon" name="folder-outline"></ion-icon>
+              <h2>{{ category.title }}</h2>
+            </div>
+
+            <ion-button
+              *ngIf="allowCategoryDeletion"
+              (click)="presentDeleteConfirm(category); $event.stopPropagation()"
+              fill="clear"
+              class="delete-button"
+              title="Eliminar categoría"
+            >
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </div>
+          <div class="category-date">
+            <ion-icon
+              class="calendar-icon"
+              name="calendar-outline"
+            ></ion-icon>
+            <span>{{ (category.date | date: 'MMM d, y') || config.TEXTS.NO_DATE }}</span>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>
