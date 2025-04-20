@@ -1,0 +1,96 @@
+.category-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  margin-bottom: 14px;
+  background-color: #fff;
+  padding: 12px 14px;
+  position: relative;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 6px 12px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.category-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  color: #222;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  display: flex;
+  gap: 6px;
+  h2 {
+    position: relative;
+    bottom: 4px;
+  }
+}
+
+.folder-icon {
+  font-size: 1rem;
+  color: #222;
+}
+
+.delete-button {
+  padding-right: 2px;
+  display: flex;
+  align-items: center;
+  --color: var(--ion-color-danger);
+}
+
+.delete-button {
+  --color: var(--ion-color-danger);
+  padding: 0;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  bottom: 0px;
+
+  ion-icon {
+    font-size: 1.2rem;
+    color: #ff4d4d;
+    opacity: 0.6;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
+}
+
+.category-date {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 4px;
+}
+
+.calendar-icon {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+@media (max-width: 360px) {
+  .category-title {
+    font-size: 0.95rem;
+  }
+  .category-date {
+    font-size: 0.7rem;
+  }
+  .calendar-icon {
+    font-size: 0.85rem;
+  }
+}
