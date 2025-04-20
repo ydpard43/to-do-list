@@ -1,8 +1,10 @@
 export const environment = {
   production: true,
   ENCRYPTION_KEY: 'ENCRYPTION_KEY',
-  STORAGE_KEY: 'STORAGE_KEY',
+  TASKS_KEY: 'TASKS_KEY',
+  CATEGORIES_KEY: 'CATEGORIES_KEY',
   TASK_REPOSITORY_TOKEN: 'TASK_REPOSITORY_TOKEN',
+  CATEGORY_REPOSITORY_TOKEN: 'TASK_REPOSITORY_TOKEN',
   firebaseConfig: {
     apiKey: "AIzaSyBwUE3o5Zgg4y7vPoOBX7bXALP5Vsgpl2c",
     authDomain: "to-do-list-52b84.firebaseapp.com",

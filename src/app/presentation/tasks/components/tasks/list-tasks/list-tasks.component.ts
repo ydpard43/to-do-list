@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TaskService } from '../../../../application/services/task.service';
-import { Task } from '../../../../domain/models/task.model';
-import { AlertController } from '@ionic/angular';
+import { TaskService } from '../../../../../application/services/task.service';
+import { Task } from '../../../../../domain/models/task.model';
+import { AlertController, ModalController } from '@ionic/angular';
 import { TASK_LIST_CONFIG } from './list-tasks.config';
+import { TaskStatus } from 'src/app/domain/models/task.-status.enum';
+import { UpdateTaskComponent } from '../update-tasks/update-tasks.component';
 
 @Component({
   selector: 'app-list-tasks',
@@ -12,13 +14,13 @@ import { TASK_LIST_CONFIG } from './list-tasks.config';
 export class ListTasksComponent implements OnInit {
   public tasks: Task[] = [];
   public filteredTasks: Task[] = [];
+  selectedTab: 'all' | 'pending' | 'completed' = 'all';
   public config = TASK_LIST_CONFIG;
 
   @Input() public filterCategoryId: string = '';
   @Input() public allowTaskDeletion: boolean | null = null;
   @Input() public allowTaskUpdate: boolean | null = null;
 
-  public isEditTaskModalOpen = false;
   public selectedTask!: Task;
   public page: number = 0;
   public pageSize: number = 20;
@@ -26,7 +28,8 @@ export class ListTasksComponent implements OnInit {
 
   constructor(
     private taskService: TaskService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private modalController: ModalController
   ) { }
 
   public ngOnInit() {
@@ -56,7 +59,8 @@ export class ListTasksComponent implements OnInit {
     }
   }
 
-  public applyFilter() {
+  public applyFilter(tab: 'all' | 'pending' | 'completed' = 'all') {
+    this.selectedTab = tab;
     const query = this.filterCategoryId.trim().toLowerCase();
 
     if (query === '') {
@@ -70,6 +74,7 @@ export class ListTasksComponent implements OnInit {
         })
         .slice(0, (this.page + 1) * this.pageSize);
     }
+    this.filteredTasks = this.filterTasks()
   }
 
   public toggleCompletion(task: Task) {
@@ -111,27 +116,27 @@ export class ListTasksComponent implements OnInit {
   }
 
   public openEditTaskModal(task: Task) {
-    this.selectedTask = new Task(
-      task.id,
-      task.title,
-      task.status,
-      task.categoryId,
-      task.createdAt,
-      task.date
-    );
-    this.isEditTaskModalOpen = true;
+    this.modalController.create({
+      component: UpdateTaskComponent,
+      cssClass: 'custom-modal',
+      componentProps: { task, allowTaskUpdate: this.allowTaskUpdate }
+    }).then(async (modal) => {
+      await modal.present()
+      modal.onDidDismiss().then(() => {
+        this.loadTasks()
+      })
+    })
+
   }
 
-  public closeEditTaskModal() {
-    this.isEditTaskModalOpen = false;
-  }
-
-  public onTaskUpdated(updatedTask: Task) {
-    const index = this.tasks.findIndex(task => task.id === updatedTask.id);
-    if (index !== -1) {
-      this.tasks[index] = updatedTask;
+  filterTasks(): Task[] {
+    switch (this.selectedTab) {
+      case 'pending':
+        return this.filteredTasks.filter(task => task.status === TaskStatus.Pending);
+      case 'completed':
+        return this.filteredTasks.filter(task => task.status === TaskStatus.Completed);
+      default:
+        return this.filteredTasks;
     }
-    this.applyFilter();
-    this.closeEditTaskModal();
   }
 }
