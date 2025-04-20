@@ -1,0 +1,18 @@
+.empty-date {
+    color: transparent;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  
+    slot {
+      font-size: 0px !important;
+      width: 128px;
+      height: 32px;
+    }
+  }
+  
+  ion-datetime.empty-date::part(native) {
+    color: transparent;
+  }
+  
+  button#date-button {
+    color: blue !important;
+  }
