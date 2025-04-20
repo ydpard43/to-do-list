@@ -8,9 +8,9 @@ import { environment } from 'src/environments/environment.prod';
   providedIn: 'root',
 })
 export class LocalStorageTaskRepository implements TaskRepository {
-  private readonly STORAGE_KEY = environment.STORAGE_KEY;
+  private readonly STORAGE_KEY = environment.TASKS_KEY;
 
-  constructor(private storageService: EncryptedStorageService) {}
+  constructor(private storageService: EncryptedStorageService) { }
 
   save(task: Task): void {
     const tasks = this.findAll();
@@ -32,17 +32,19 @@ export class LocalStorageTaskRepository implements TaskRepository {
     const tasks = this.storageService.get<Task[]>(this.STORAGE_KEY);
     return tasks
       ? tasks.map(
-          (taskData: any) =>
-            new Task(
-              taskData.id,
-              taskData.title,
-              taskData.status,
-              taskData.categoryId
-            )
-        )
+        (taskData: any) =>
+          new Task(
+            taskData.id,
+            taskData.title,
+            taskData.status,
+            taskData.categoryId,
+            new Date(taskData.createdAt),
+            taskData.date
+          )
+      )
       : [];
   }
-  
+
   findById(taskId: string): Task | undefined {
     return this.findAll().find(task => task.id === taskId);
   }

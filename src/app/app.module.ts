@@ -10,12 +10,15 @@ import { TASK_REPOSITORY_TOKEN } from './application/ports/task-repository.token
 import { environment } from 'src/environments/environment.prod';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { getRemoteConfig, provideRemoteConfig } from '@angular/fire/remote-config';
+import { CATEGORY_REPOSITORY_TOKEN } from './application/ports/category-repository.token';
+import { LocalStorageCategoryRepository } from './infrastructure/adapters/local-storage-categories.repository';
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule, IonicModule.forRoot({ mode: 'md' }), AppRoutingModule],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: TASK_REPOSITORY_TOKEN, useClass: LocalStorageTaskRepository },
+    { provide: CATEGORY_REPOSITORY_TOKEN, useClass: LocalStorageCategoryRepository },
     { provide: ENCRYPTION_KEY, useValue: environment.ENCRYPTION_KEY },
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideRemoteConfig(() => getRemoteConfig())
