@@ -1,0 +1,13 @@
+<ion-content>
+  <app-header [config]="this.config" (action)="openAddModal()"></app-header>
+  <app-filter-tasks
+    *ngIf="enableCategoryFilter$ | async"
+    (filterCategory)="filterCategoryId = $event"
+  ></app-filter-tasks>
+
+  <app-list-tasks
+    [filterCategoryId]="filterCategoryId"
+    [allowTaskDeletion]="allowTaskDeletion$ | async"
+    [allowTaskUpdate]="allowTaskUpdate$ | async"
+  ></app-list-tasks>
+</ion-content>

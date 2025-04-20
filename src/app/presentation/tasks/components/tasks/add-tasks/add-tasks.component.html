@@ -1,0 +1,101 @@
+<ion-header class="modal-header-enhanced ion-no-border">
+  <ion-toolbar class="enhanced-toolbar">
+    <ion-title class="header-title">
+      <div class="title-content">
+        <ion-icon name="document-text-outline" class="header-icon"></ion-icon>
+        <ion-label>{{ config.TEXTS.TASK_HEADER }}</ion-label>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="item-container">
+    <div class="item">
+      <ion-label>{{ config.TEXTS.TASK_TITLE }}</ion-label>
+      <div>
+        <ion-input
+          name="title"
+          [(ngModel)]="newTaskTitle"
+          placeholder="{{ config.TEXTS.TASK_TITLE_PLACEHOLDER }}"
+          class="custom"
+        ></ion-input>
+      </div>
+    </div>
+
+    <div class="item category-item">
+      <ion-label>{{ config.TEXTS.CATEGORY_ID }}</ion-label>
+      <div>
+        <ion-select
+          fill="outline"
+          [(ngModel)]="newTaskCategoryId"
+          interface="popover"
+          labelPlacement="stacked"
+          placeholder="{{ config.TEXTS.CATEGORY_ID_PLACEHOLDER }}"
+        >
+          <ion-select-option
+            *ngFor="let category of categories"
+            [value]="category.title"
+          >
+            {{ category.title }}
+          </ion-select-option>
+        </ion-select>
+        <ion-button
+          fill="clear"
+          size="small"
+          slot="end"
+          class="clear-select-btn"
+          (click)="clearCategory()"
+          *ngIf="newTaskCategoryId"
+        >
+          <ion-icon
+            name="close-circle"
+            slot="icon-only"
+            color="danger"
+          ></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+
+    <div class="item date-item">
+      <ion-label>{{ config.TEXTS.DATE_LABEL }}</ion-label>
+      <ion-datetime-button
+        datetime="datetime"
+        class="invisible-date-input"
+      ></ion-datetime-button>
+      <div class="date-content">
+        <ion-text class="date-helper">
+          {{
+            newTaskDate
+              ? (newTaskDate | date: 'mediumDate')
+              : config.TEXTS.NO_DATE_SELECTED
+          }}
+        </ion-text>
+        <ion-icon name="calendar-outline" class="calendar-icon"></ion-icon>
+      </div>
+
+      <ion-modal [keepContentsMounted]="true" class="custom-backdrop-modal">
+        <ng-template>
+          <ion-datetime
+            id="datetime"
+            presentation="date"
+            [(ngModel)]="newTaskDate"
+            show-default-buttons="true"
+            show-clear-button="true"
+            clear-text="Limpiar"
+            cancel-text="Cancelar"
+            done-text="Aceptar"
+          ></ion-datetime>
+        </ng-template>
+      </ion-modal>
+    </div>
+    <div class="btn-container">
+      <button class="add" (click)="onAddTask()">
+        {{ config.BUTTONS.ADD_TASK.TEXT }}
+      </button>
+      <button class="close" (click)="closeModal()">
+        {{ config.BUTTONS.CLOSE.TEXT }}
+      </button>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,91 @@
+<div class="tab-bar">
+  <button [class.active]="selectedTab === 'all'" (click)="applyFilter('all')">
+    Todas
+  </button>
+  <button
+    [class.active]="selectedTab === 'pending'"
+    (click)="applyFilter('pending')"
+  >
+    Pendientes
+  </button>
+  <button
+    [class.active]="selectedTab === 'completed'"
+    (click)="applyFilter('completed')"
+  >
+    Completadas
+  </button>
+</div>
+<ion-grid>
+  <ion-row>
+    <ng-container *ngIf="filteredTasks.length > 0; else noTasks">
+      <ion-col
+        size="12"
+        size-md="6"
+        size-lg="4"
+        *ngFor="let task of filteredTasks"
+      >
+        <ion-card
+          class="task-card"
+          [ngClass]="{
+            completed: task.status === config.STATUS.COMPLETED,
+            pending: task.status === config.STATUS.PENDING,
+          }"
+          (click)="openEditTaskModal(task)"
+        >
+          <ion-card-content>
+            <div class="task-header">
+              <div class="task-title-wrapper">
+                <ion-checkbox
+                  class="task-checkbox"
+                  [checked]="task.status === config.STATUS.COMPLETED"
+                  (ionChange)="toggleCompletion(task); $event.stopPropagation()"
+                  title="Marcar como completada"
+                ></ion-checkbox>
+                <h2
+                  class="task-title"
+                  [ngClass]="{
+                    completed: task.status === config.STATUS.COMPLETED,
+                  }"
+                  title="{{ task.title }}"
+                >
+                  {{ task.title }}
+                </h2>
+              </div>
+
+              <div class="task-actions">
+                <ion-button
+                  *ngIf="allowTaskDeletion"
+                  (click)="presentDeleteConfirm(task); $event.stopPropagation()"
+                  fill="clear"
+                  class="delete-button"
+                  title="Eliminar tarea"
+                >
+                  <ion-icon name="trash-outline"></ion-icon>
+                </ion-button>
+              </div>
+            </div>
+
+            <div class="task-meta-row">
+              <div class="meta-item">
+                <ion-icon name="pricetag-outline"></ion-icon>
+                <span>{{ task.categoryId || config.TEXTS.NO_CATEGORY }}</span>
+              </div>
+              <div class="meta-item">
+                <ion-icon
+                  name="calendar-outline"
+                  [class.ion-hide]="!task.date"
+                ></ion-icon>
+                <span>{{ (task.date | date: 'MMM d, y') || '\u3000' }}</span>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ng-container>
+    <ng-template #noTasks>
+      <div class="empty-state">
+        <p>No hay tareas en esta sección.</p>
+      </div>
+    </ng-template>
+  </ion-row>
+</ion-grid>
