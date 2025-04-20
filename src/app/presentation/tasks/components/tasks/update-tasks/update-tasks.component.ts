@@ -1,11 +1,11 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Task } from '../../../../../domain/models/task.model';
 import { TaskService } from '../../../../../application/services/task.service';
 import { UPDATE_TASK_CONFIG } from './update-tasks.config';
-import { AlertController, ModalController } from '@ionic/angular';
 import { Category } from 'src/app/domain/models/category.model';
 import { CategoriesService } from 'src/app/application/services/category.service';
 import { AlertService } from 'src/app/infrastructure/services/alert-service/alert.service';
+import { ModalsService } from 'src/app/infrastructure/services/modal-service/modals.service';
 
 @Component({
   selector: 'app-update-tasks',
@@ -26,7 +26,7 @@ export class UpdateTaskComponent implements OnInit {
   constructor(
     private taskService: TaskService,
     private alertService: AlertService,
-    private modalController: ModalController,
+    private modalService: ModalsService,
     private categoriesService: CategoriesService
   ) { }
 
@@ -48,12 +48,6 @@ export class UpdateTaskComponent implements OnInit {
     }
   }
 
-  public clearDate() {
-    if (this.allowTaskUpdate) {
-      this.editableTask.date = undefined;
-    }
-  }
-
   public setEditTask() {
     this.editableTask = new Task(
       this.task.id,
@@ -66,7 +60,7 @@ export class UpdateTaskComponent implements OnInit {
   }
 
   public clearCategory() {
-    this.editableTask.date = ''
+    this.editableTask.categoryId = ''
   }
 
   public loadCategories() {
@@ -76,6 +70,6 @@ export class UpdateTaskComponent implements OnInit {
   }
 
   public closeModal() {
-    this.modalController.dismiss()
+    this.modalService.closeModal()
   }
 }

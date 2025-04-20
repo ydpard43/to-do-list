@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
 import { Category } from 'src/app/domain/models/category.model';
 import { UPDATE_CATEGORY_CONFIG } from './update-categories.config';
 import { CategoriesService } from 'src/app/application/services/category.service';
 import { AlertService } from 'src/app/infrastructure/services/alert-service/alert.service';
+import { ModalsService } from 'src/app/infrastructure/services/modal-service/modals.service';
 
 @Component({
   selector: 'app-update-categories',
@@ -19,16 +19,11 @@ export class UpdateCategoriesComponent implements OnInit {
   constructor(
     private categoriesService: CategoriesService,
     private alertService: AlertService,
-    private modalController: ModalController
+    private modalService: ModalsService
   ) { }
 
   public ngOnInit() {
-    this.editableCategory = new Category(
-      this.category.id,
-      this.category.title,
-      this.category.createdAt,
-      this.category.date
-    );
+    this.setEditCategory()
   }
 
   public async saveCategory() {
@@ -48,6 +43,15 @@ export class UpdateCategoriesComponent implements OnInit {
   }
 
   public closeModal() {
-    this.modalController.dismiss()
+    this.modalService.closeModal()
+  }
+
+  private setEditCategory() {
+    this.editableCategory = new Category(
+      this.category.id,
+      this.category.title,
+      this.category.createdAt,
+      this.category.date
+    );
   }
 }

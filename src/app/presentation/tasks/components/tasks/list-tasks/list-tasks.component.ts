@@ -1,11 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TaskService } from '../../../../../application/services/task.service';
 import { Task } from '../../../../../domain/models/task.model';
-import { AlertController, ModalController } from '@ionic/angular';
 import { TASK_LIST_CONFIG } from './list-tasks.config';
 import { TaskStatus } from 'src/app/domain/models/task.-status.enum';
-import { UpdateTaskComponent } from '../update-tasks/update-tasks.component';
 import { AlertService } from 'src/app/infrastructure/services/alert-service/alert.service';
+import { ModalsService } from 'src/app/infrastructure/services/modal-service/modals.service';
 
 @Component({
   selector: 'app-list-tasks',
@@ -30,7 +29,7 @@ export class ListTasksComponent implements OnInit {
   constructor(
     private taskService: TaskService,
     private alertService: AlertService,
-    private modalController: ModalController
+    private modalService: ModalsService
   ) { }
 
   public ngOnInit() {
@@ -100,17 +99,10 @@ export class ListTasksComponent implements OnInit {
   }
 
   public openEditTaskModal(task: Task) {
-    this.modalController.create({
-      component: UpdateTaskComponent,
-      cssClass: 'custom-modal',
-      componentProps: { task, allowTaskUpdate: this.allowTaskUpdate }
-    }).then(async (modal) => {
-      await modal.present()
-      modal.onDidDismiss().then(() => {
-        this.loadTasks()
-      })
+    let data = { task, allowTaskUpdate: this.allowTaskUpdate }
+    this.modalService.openModal('editTasks', 'custom-modal', data, () => {
+      this.loadTasks()
     })
-
   }
 
   filterTasks(): Task[] {

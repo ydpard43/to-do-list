@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
 import { ADD_TASK_CONFIG } from './add-tasks.config';
 import { Category } from 'src/app/domain/models/category.model';
 import { CategoriesService } from 'src/app/application/services/category.service';
 import { TaskService } from 'src/app/application/services/task.service';
 import { AlertService } from 'src/app/infrastructure/services/alert-service/alert.service';
+import { ModalsService } from 'src/app/infrastructure/services/modal-service/modals.service';
 
 @Component({
   selector: 'app-add-tasks',
@@ -23,7 +23,7 @@ export class AddTasksComponent implements OnInit {
   totalCategories: number = 0;
   public pageSize: number = 20;
 
-  constructor(private alertService: AlertService, private categoriesService: CategoriesService, private modalController: ModalController, private taskService: TaskService) { }
+  constructor(private alertService: AlertService, private categoriesService: CategoriesService, private modalService: ModalsService, private taskService: TaskService) { }
 
   ngOnInit(): void {
     this.loadCategories()
@@ -65,7 +65,7 @@ export class AddTasksComponent implements OnInit {
   }
 
   public closeModal() {
-    this.modalController.dismiss()
+    this.modalService.closeModal()
   }
 
 }

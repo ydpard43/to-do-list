@@ -1,10 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
 import { CATEGORY_LIST_CONFIG } from './list-categories.config';
 import { Category } from 'src/app/domain/models/category.model';
 import { CategoriesService } from 'src/app/application/services/category.service';
-import { UpdateCategoriesComponent } from '../update-categories/update-categories.component';
 import { AlertService } from 'src/app/infrastructure/services/alert-service/alert.service';
+import { ModalsService } from 'src/app/infrastructure/services/modal-service/modals.service';
 
 @Component({
   selector: 'app-list-categories',
@@ -28,7 +27,7 @@ export class ListCategoriesComponent implements OnInit {
   constructor(
     private categoriesService: CategoriesService,
     private alertService: AlertService,
-    private modalController: ModalController
+    private modalService: ModalsService
   ) { }
 
   public ngOnInit() {
@@ -87,15 +86,9 @@ export class ListCategoriesComponent implements OnInit {
   }
 
   public openEditCategoryModal(category: Category) {
-    this.modalController.create({
-      component: UpdateCategoriesComponent,
-      cssClass: 'custom-modal-category',
-      componentProps: { category, allowCategoryUpdate: this.allowCategoryUpdate }
-    }).then(async (modal) => {
-      await modal.present()
-      modal.onDidDismiss().then(() => {
-        this.loadCategories()
-      })
+    let data = { category, allowCategoryUpdate: this.allowCategoryUpdate }
+    this.modalService.openModal('editCategory', 'custom-modal-category', data, () => {
+      this.loadCategories()
     })
   }
 }

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
 import { ADD_CATEGORIES_CONFIG } from './add-categories.config';
 import { CategoriesService } from 'src/app/application/services/category.service';
 import { AlertService } from 'src/app/infrastructure/services/alert-service/alert.service';
+import { ModalsService } from 'src/app/infrastructure/services/modal-service/modals.service';
 
 @Component({
   selector: 'app-add-categories',
@@ -17,7 +17,7 @@ export class AddCategoriesComponent {
   public newCategoriesDate: string | null = null;
   public config = ADD_CATEGORIES_CONFIG;
 
-  constructor(private categoryService: CategoriesService, private modalController: ModalController, private alertService: AlertService) { }
+  constructor(private categoryService: CategoriesService, private modalService: ModalsService, private alertService: AlertService) { }
 
   public async onAddCategories() {
     if (this.newCategoriesTitle.trim()) {
@@ -35,7 +35,7 @@ export class AddCategoriesComponent {
   }
 
   public closeModal() {
-    this.modalController.dismiss()
+    this.modalService.closeModal()
   }
 
   public addCategory() {

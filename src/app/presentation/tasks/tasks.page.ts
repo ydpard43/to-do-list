@@ -1,13 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { TaskService } from '../../application/services/task.service';
 import { Observable } from 'rxjs';
 import { RemoteConfigService } from '../../infrastructure/services/remote-config/remote-config.service';
 import { HOME_CONFIG } from './tasks.config';
 import { ListTasksComponent } from './components/tasks/list-tasks/list-tasks.component';
 import { CategoriesService } from 'src/app/application/services/category.service';
 import { ListCategoriesComponent } from '../categories/components/list-categories/list-categories.component';
-import { ModalController } from '@ionic/angular';
-import { AddTasksComponent } from './components/tasks/add-tasks/add-tasks.component';
+import { ModalsService } from 'src/app/infrastructure/services/modal-service/modals.service';
 
 @Component({
   selector: 'app-tasks',
@@ -27,7 +25,7 @@ export class TasksPage implements OnInit {
   public currentDate: Date = new Date();
   public config = HOME_CONFIG;
 
-  constructor(private categoryService: CategoriesService, private remoteConfigService: RemoteConfigService, private modalController: ModalController) { }
+  constructor(private categoryService: CategoriesService, private remoteConfigService: RemoteConfigService, private modalService: ModalsService) { }
 
   ngOnInit(): void {
     this.initRemoteConfig()
@@ -65,14 +63,8 @@ export class TasksPage implements OnInit {
   }
 
   public openAddModal() {
-    this.modalController.create({
-      component: AddTasksComponent,
-      cssClass: 'custom-modal'
-    }).then(async (modal) => {
-      await modal.present()
-      modal.onDidDismiss().then(() => {
-        this.loadTasks()
-      })
+    this.modalService.openModal('addTask', 'custom-modal', {}, () => {
+      this.loadTasks()
     })
   }
 }
