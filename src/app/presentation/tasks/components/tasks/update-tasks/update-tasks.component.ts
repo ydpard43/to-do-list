@@ -5,6 +5,7 @@ import { UPDATE_TASK_CONFIG } from './update-tasks.config';
 import { AlertController, ModalController } from '@ionic/angular';
 import { Category } from 'src/app/domain/models/category.model';
 import { CategoriesService } from 'src/app/application/services/category.service';
+import { AlertService } from 'src/app/infrastructure/services/alert-service/alert.service';
 
 @Component({
   selector: 'app-update-tasks',
@@ -24,7 +25,7 @@ export class UpdateTaskComponent implements OnInit {
 
   constructor(
     private taskService: TaskService,
-    private alertController: AlertController,
+    private alertService: AlertService,
     private modalController: ModalController,
     private categoriesService: CategoriesService
   ) { }
@@ -43,12 +44,7 @@ export class UpdateTaskComponent implements OnInit {
       });
       this.closeModal()
     } else {
-      const alert = await this.alertController.create({
-        header: this.config.ALERTS.TITLE,
-        message: this.config.ALERTS.MESSAGE,
-        buttons: [this.config.ALERTS.BUTTON],
-      });
-      await alert.present();
+      this.alertService.showAlertInfo(this.config)
     }
   }
 

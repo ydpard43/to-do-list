@@ -4,6 +4,7 @@ import { CATEGORY_LIST_CONFIG } from './list-categories.config';
 import { Category } from 'src/app/domain/models/category.model';
 import { CategoriesService } from 'src/app/application/services/category.service';
 import { UpdateCategoriesComponent } from '../update-categories/update-categories.component';
+import { AlertService } from 'src/app/infrastructure/services/alert-service/alert.service';
 
 @Component({
   selector: 'app-list-categories',
@@ -26,7 +27,7 @@ export class ListCategoriesComponent implements OnInit {
 
   constructor(
     private categoriesService: CategoriesService,
-    private alertController: AlertController,
+    private alertService: AlertService,
     private modalController: ModalController
   ) { }
 
@@ -72,29 +73,10 @@ export class ListCategoriesComponent implements OnInit {
   }
 
   public async presentDeleteConfirm(category: Category) {
-    const alert = await this.alertController.create({
-      header: this.config.TEXTS.DELETE_CONFIRM_TITLE,
-      message: `${this.config.TEXTS.DELETE_CONFIRM_MESSAGE.replace('{title}', category.title)}`,
-      cssClass: 'custom-alert',
-      buttons: [
-        {
-          text: this.config.BUTTONS.CANCEL.LABEL,
-          role: 'cancel',
-          handler: () => {
-            console.log(this.config.TEXTS.DELETE_CANCELLED);
-          },
-        },
-        {
-          text: this.config.BUTTONS.DELETE.LABEL,
-          role: 'confirm',
-          handler: () => {
-            this.deleteCategories(category.id);
-          },
-        },
-      ],
-    });
-
-    await alert.present();
+    const message: string = `${this.config.TEXTS.DELETE_CONFIRM_MESSAGE.replace('{title}', category.title)}`
+    this.alertService.presentDeleteConfirm(this.config, () => {
+      this.deleteCategories(category.id);
+    }, message)
   }
 
   public deleteCategories(categoryId: string) {

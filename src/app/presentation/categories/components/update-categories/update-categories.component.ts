@@ -1,8 +1,9 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
+import { Component, Input, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { Category } from 'src/app/domain/models/category.model';
 import { UPDATE_CATEGORY_CONFIG } from './update-categories.config';
 import { CategoriesService } from 'src/app/application/services/category.service';
+import { AlertService } from 'src/app/infrastructure/services/alert-service/alert.service';
 
 @Component({
   selector: 'app-update-categories',
@@ -17,7 +18,7 @@ export class UpdateCategoriesComponent implements OnInit {
 
   constructor(
     private categoriesService: CategoriesService,
-    private alertController: AlertController,
+    private alertService: AlertService,
     private modalController: ModalController
   ) { }
 
@@ -35,12 +36,7 @@ export class UpdateCategoriesComponent implements OnInit {
       this.updateCategory()
       this.closeModal()
     } else {
-      const alert = await this.alertController.create({
-        header: this.config.ALERTS.TITLE,
-        message: this.config.ALERTS.MESSAGE,
-        buttons: [this.config.ALERTS.BUTTON],
-      });
-      await alert.present();
+      this.alertService.showAlertInfo(this.config)
     }
   }
 

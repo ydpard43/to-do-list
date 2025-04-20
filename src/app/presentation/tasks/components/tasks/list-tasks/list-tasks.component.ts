@@ -5,6 +5,7 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { TASK_LIST_CONFIG } from './list-tasks.config';
 import { TaskStatus } from 'src/app/domain/models/task.-status.enum';
 import { UpdateTaskComponent } from '../update-tasks/update-tasks.component';
+import { AlertService } from 'src/app/infrastructure/services/alert-service/alert.service';
 
 @Component({
   selector: 'app-list-tasks',
@@ -28,7 +29,7 @@ export class ListTasksComponent implements OnInit {
 
   constructor(
     private taskService: TaskService,
-    private alertController: AlertController,
+    private alertService: AlertService,
     private modalController: ModalController
   ) { }
 
@@ -83,29 +84,12 @@ export class ListTasksComponent implements OnInit {
   }
 
   public async presentDeleteConfirm(task: Task) {
-    const alert = await this.alertController.create({
-      header: this.config.TEXTS.DELETE_CONFIRM_TITLE,
-      message: `${this.config.TEXTS.DELETE_CONFIRM_MESSAGE.replace('{title}', task.title).replace('{category}', task.categoryId || this.config.TEXTS.NO_CATEGORY)}`,
-      cssClass: 'custom-alert',
-      buttons: [
-        {
-          text: this.config.BUTTONS.CANCEL.LABEL,
-          role: 'cancel',
-          handler: () => {
-            console.log(this.config.TEXTS.DELETE_CANCELLED);
-          },
-        },
-        {
-          text: this.config.BUTTONS.DELETE.LABEL,
-          role: 'confirm',
-          handler: () => {
-            this.deleteTask(task.id);
-          },
-        },
-      ],
-    });
+    const message: string = `${this.config.TEXTS.DELETE_CONFIRM_MESSAGE.replace('{title}', task.title).replace('{category}', task.categoryId || this.config.TEXTS.NO_CATEGORY)}`
+    this.alertService.presentDeleteConfirm(this.config, () => {
+      this.deleteTask(task.id);
+    }, message
+    )
 
-    await alert.present();
   }
 
   public deleteTask(taskId: string) {

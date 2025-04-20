@@ -4,6 +4,7 @@ import { ADD_TASK_CONFIG } from './add-tasks.config';
 import { Category } from 'src/app/domain/models/category.model';
 import { CategoriesService } from 'src/app/application/services/category.service';
 import { TaskService } from 'src/app/application/services/task.service';
+import { AlertService } from 'src/app/infrastructure/services/alert-service/alert.service';
 
 @Component({
   selector: 'app-add-tasks',
@@ -22,7 +23,7 @@ export class AddTasksComponent implements OnInit {
   totalCategories: number = 0;
   public pageSize: number = 20;
 
-  constructor(private alertController: AlertController, private categoriesService: CategoriesService, private modalController: ModalController, private taskService: TaskService) { }
+  constructor(private alertService: AlertService, private categoriesService: CategoriesService, private modalController: ModalController, private taskService: TaskService) { }
 
   ngOnInit(): void {
     this.loadCategories()
@@ -34,12 +35,7 @@ export class AddTasksComponent implements OnInit {
       this.resetForm();
       this.closeModal()
     } else {
-      const alert = await this.alertController.create({
-        header: this.config.ALERTS.TITLE,
-        message: this.config.ALERTS.MESSAGE,
-        buttons: [this.config.ALERTS.BUTTON],
-      });
-      await alert.present();
+      this.alertService.showAlertInfo(this.config)
     }
   }
 
@@ -58,7 +54,7 @@ export class AddTasksComponent implements OnInit {
     this.newTaskDate = null;
   }
 
-  public clearCategory(){
+  public clearCategory() {
     this.newTaskCategoryId = ''
   }
 
