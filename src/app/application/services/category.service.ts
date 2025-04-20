@@ -14,7 +14,7 @@ export class CategoriesService {
   ) { }
 
 
-  addCategory(title: string, date?: string): Category {
+  public addCategory(title: string, date?: string): Category {
     const newCategory = new Category(
       this.generateId(),
       title,
@@ -26,12 +26,12 @@ export class CategoriesService {
   }
 
 
-  deleteCategory(categoryId: string): void {
+  public deleteCategory(categoryId: string): void {
     this.categoryRepository.delete(categoryId);
   }
 
 
-  updateCategory(categoryId: string, updatedData: Partial<Category>): Category | undefined {
+  public updateCategory(categoryId: string, updatedData: Partial<Category>): Category | undefined {
     const category = this.categoryRepository.findById(categoryId);
     if (category) {
       Object.assign(category, updatedData);
