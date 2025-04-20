@@ -1,0 +1,67 @@
+<ion-header class="modal-header-enhanced ion-no-border">
+  <ion-toolbar class="enhanced-toolbar">
+    <ion-title class="header-title">
+      <div class="title-content">
+        <ion-icon name="folder-open-outline" class="header-icon"></ion-icon>
+        <ion-label>{{ config.TEXTS.CATEGORY_HEADER }}</ion-label>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="item-container">
+    <div class="item">
+      <ion-label>{{ config.TEXTS.CATEGORY_TITLE }}</ion-label>
+      <div>
+        <ion-input
+          [(ngModel)]="newCategoriesTitle"
+          placeholder="{{ config.TEXTS.CATEGORY_TITLE_PLACEHOLDER }}"
+          class="custom"
+        ></ion-input>
+      </div>
+    </div>
+
+    <div class="item date-item">
+      <ion-label>{{ config.TEXTS.DATE_LABEL }}</ion-label>
+      <ion-datetime-button
+        datetime="datePicker"
+        class="invisible-date-input"
+      ></ion-datetime-button>
+      <div class="date-content">
+        <ion-text class="date-helper">
+          {{
+            newCategoriesDate
+              ? (newCategoriesDate | date: 'mediumDate')
+              : config.TEXTS.NO_DATE_SELECTED
+          }}
+        </ion-text>
+        <ion-icon name="calendar-outline" class="calendar-icon"></ion-icon>
+      </div>
+
+      <ion-modal [keepContentsMounted]="true" class="custom-backdrop-modal">
+        <ng-template>
+          <ion-datetime
+            id="datePicker"
+            presentation="date"
+            [(ngModel)]="newCategoriesDate"
+            show-default-buttons="true"
+            show-clear-button="true"
+            clear-text="Limpiar"
+            cancel-text="Cancelar"
+            done-text="Aceptar"
+          ></ion-datetime>
+        </ng-template>
+      </ion-modal>
+    </div>
+
+    <div class="btn-container">
+      <button class="add" (click)="onAddCategories()">
+        {{ config.BUTTONS.ADD_CATEGORY.TEXT }}
+      </button>
+      <button class="close" (click)="closeModal()">
+        {{ config.BUTTONS.CLOSE.TEXT }}
+      </button>
+    </div>
+  </div>
+</ion-content>
