@@ -1,10 +1,11 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Task } from '../../../../../domain/models/task.model';
 import { TaskService } from '../../../../../application/services/task.service';
 import { UPDATE_TASK_CONFIG } from './update-tasks.config';
-import { AlertController, ModalController } from '@ionic/angular';
 import { Category } from 'src/app/domain/models/category.model';
 import { CategoriesService } from 'src/app/application/services/category.service';
+import { AlertService } from 'src/app/infrastructure/services/alert-service/alert.service';
+import { ModalsService } from 'src/app/infrastructure/services/modal-service/modals.service';
 
 @Component({
   selector: 'app-update-tasks',
@@ -24,8 +25,8 @@ export class UpdateTaskComponent implements OnInit {
 
   constructor(
     private taskService: TaskService,
-    private alertController: AlertController,
-    private modalController: ModalController,
+    private alertService: AlertService,
+    private modalService: ModalsService,
     private categoriesService: CategoriesService
   ) { }
 
@@ -43,18 +44,7 @@ export class UpdateTaskComponent implements OnInit {
       });
       this.closeModal()
     } else {
-      const alert = await this.alertController.create({
-        header: this.config.ALERTS.TITLE,
-        message: this.config.ALERTS.MESSAGE,
-        buttons: [this.config.ALERTS.BUTTON],
-      });
-      await alert.present();
-    }
-  }
-
-  public clearDate() {
-    if (this.allowTaskUpdate) {
-      this.editableTask.date = undefined;
+      this.alertService.showAlertInfo(this.config)
     }
   }
 
@@ -70,7 +60,7 @@ export class UpdateTaskComponent implements OnInit {
   }
 
   public clearCategory() {
-    this.editableTask.date = ''
+    this.editableTask.categoryId = ''
   }
 
   public loadCategories() {
@@ -80,6 +70,6 @@ export class UpdateTaskComponent implements OnInit {
   }
 
   public closeModal() {
-    this.modalController.dismiss()
+    this.modalService.closeModal()
   }
 }

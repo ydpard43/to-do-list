@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TaskService } from '../../../../../application/services/task.service';
 import { Task } from '../../../../../domain/models/task.model';
-import { AlertController, ModalController } from '@ionic/angular';
 import { TASK_LIST_CONFIG } from './list-tasks.config';
 import { TaskStatus } from 'src/app/domain/models/task.-status.enum';
-import { UpdateTaskComponent } from '../update-tasks/update-tasks.component';
+import { AlertService } from 'src/app/infrastructure/services/alert-service/alert.service';
+import { ModalsService } from 'src/app/infrastructure/services/modal-service/modals.service';
 
 @Component({
   selector: 'app-list-tasks',
@@ -28,8 +28,8 @@ export class ListTasksComponent implements OnInit {
 
   constructor(
     private taskService: TaskService,
-    private alertController: AlertController,
-    private modalController: ModalController
+    private alertService: AlertService,
+    private modalService: ModalsService
   ) { }
 
   public ngOnInit() {
@@ -83,29 +83,12 @@ export class ListTasksComponent implements OnInit {
   }
 
   public async presentDeleteConfirm(task: Task) {
-    const alert = await this.alertController.create({
-      header: this.config.TEXTS.DELETE_CONFIRM_TITLE,
-      message: `${this.config.TEXTS.DELETE_CONFIRM_MESSAGE.replace('{title}', task.title).replace('{category}', task.categoryId || this.config.TEXTS.NO_CATEGORY)}`,
-      cssClass: 'custom-alert',
-      buttons: [
-        {
-          text: this.config.BUTTONS.CANCEL.LABEL,
-          role: 'cancel',
-          handler: () => {
-            console.log(this.config.TEXTS.DELETE_CANCELLED);
-          },
-        },
-        {
-          text: this.config.BUTTONS.DELETE.LABEL,
-          role: 'confirm',
-          handler: () => {
-            this.deleteTask(task.id);
-          },
-        },
-      ],
-    });
+    const message: string = `${this.config.TEXTS.DELETE_CONFIRM_MESSAGE.replace('{title}', task.title).replace('{category}', task.categoryId || this.config.TEXTS.NO_CATEGORY)}`
+    this.alertService.presentDeleteConfirm(this.config, () => {
+      this.deleteTask(task.id);
+    }, message
+    )
 
-    await alert.present();
   }
 
   public deleteTask(taskId: string) {
@@ -116,17 +99,10 @@ export class ListTasksComponent implements OnInit {
   }
 
   public openEditTaskModal(task: Task) {
-    this.modalController.create({
-      component: UpdateTaskComponent,
-      cssClass: 'custom-modal',
-      componentProps: { task, allowTaskUpdate: this.allowTaskUpdate }
-    }).then(async (modal) => {
-      await modal.present()
-      modal.onDidDismiss().then(() => {
-        this.loadTasks()
-      })
+    let data = { task, allowTaskUpdate: this.allowTaskUpdate }
+    this.modalService.openModal('editTasks', 'custom-modal', data, () => {
+      this.loadTasks()
     })
-
   }
 
   filterTasks(): Task[] {

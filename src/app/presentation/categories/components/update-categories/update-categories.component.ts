@@ -1,8 +1,9 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
+import { Component, Input, OnInit } from '@angular/core';
 import { Category } from 'src/app/domain/models/category.model';
 import { UPDATE_CATEGORY_CONFIG } from './update-categories.config';
 import { CategoriesService } from 'src/app/application/services/category.service';
+import { AlertService } from 'src/app/infrastructure/services/alert-service/alert.service';
+import { ModalsService } from 'src/app/infrastructure/services/modal-service/modals.service';
 
 @Component({
   selector: 'app-update-categories',
@@ -17,17 +18,12 @@ export class UpdateCategoriesComponent implements OnInit {
 
   constructor(
     private categoriesService: CategoriesService,
-    private alertController: AlertController,
-    private modalController: ModalController
+    private alertService: AlertService,
+    private modalService: ModalsService
   ) { }
 
   public ngOnInit() {
-    this.editableCategory = new Category(
-      this.category.id,
-      this.category.title,
-      this.category.createdAt,
-      this.category.date
-    );
+    this.setEditCategory()
   }
 
   public async saveCategory() {
@@ -35,12 +31,7 @@ export class UpdateCategoriesComponent implements OnInit {
       this.updateCategory()
       this.closeModal()
     } else {
-      const alert = await this.alertController.create({
-        header: this.config.ALERTS.TITLE,
-        message: this.config.ALERTS.MESSAGE,
-        buttons: [this.config.ALERTS.BUTTON],
-      });
-      await alert.present();
+      this.alertService.showAlertInfo(this.config)
     }
   }
 
@@ -52,6 +43,15 @@ export class UpdateCategoriesComponent implements OnInit {
   }
 
   public closeModal() {
-    this.modalController.dismiss()
+    this.modalService.closeModal()
+  }
+
+  private setEditCategory() {
+    this.editableCategory = new Category(
+      this.category.id,
+      this.category.title,
+      this.category.createdAt,
+      this.category.date
+    );
   }
 }

@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
 import { CATEGORY_LIST_CONFIG } from './list-categories.config';
 import { Category } from 'src/app/domain/models/category.model';
 import { CategoriesService } from 'src/app/application/services/category.service';
-import { UpdateCategoriesComponent } from '../update-categories/update-categories.component';
+import { AlertService } from 'src/app/infrastructure/services/alert-service/alert.service';
+import { ModalsService } from 'src/app/infrastructure/services/modal-service/modals.service';
 
 @Component({
   selector: 'app-list-categories',
@@ -26,8 +26,8 @@ export class ListCategoriesComponent implements OnInit {
 
   constructor(
     private categoriesService: CategoriesService,
-    private alertController: AlertController,
-    private modalController: ModalController
+    private alertService: AlertService,
+    private modalService: ModalsService
   ) { }
 
   public ngOnInit() {
@@ -72,29 +72,10 @@ export class ListCategoriesComponent implements OnInit {
   }
 
   public async presentDeleteConfirm(category: Category) {
-    const alert = await this.alertController.create({
-      header: this.config.TEXTS.DELETE_CONFIRM_TITLE,
-      message: `${this.config.TEXTS.DELETE_CONFIRM_MESSAGE.replace('{title}', category.title)}`,
-      cssClass: 'custom-alert',
-      buttons: [
-        {
-          text: this.config.BUTTONS.CANCEL.LABEL,
-          role: 'cancel',
-          handler: () => {
-            console.log(this.config.TEXTS.DELETE_CANCELLED);
-          },
-        },
-        {
-          text: this.config.BUTTONS.DELETE.LABEL,
-          role: 'confirm',
-          handler: () => {
-            this.deleteCategories(category.id);
-          },
-        },
-      ],
-    });
-
-    await alert.present();
+    const message: string = `${this.config.TEXTS.DELETE_CONFIRM_MESSAGE.replace('{title}', category.title)}`
+    this.alertService.presentDeleteConfirm(this.config, () => {
+      this.deleteCategories(category.id);
+    }, message)
   }
 
   public deleteCategories(categoryId: string) {
@@ -105,15 +86,9 @@ export class ListCategoriesComponent implements OnInit {
   }
 
   public openEditCategoryModal(category: Category) {
-    this.modalController.create({
-      component: UpdateCategoriesComponent,
-      cssClass: 'custom-modal-category',
-      componentProps: { category, allowCategoryUpdate: this.allowCategoryUpdate }
-    }).then(async (modal) => {
-      await modal.present()
-      modal.onDidDismiss().then(() => {
-        this.loadCategories()
-      })
+    let data = { category, allowCategoryUpdate: this.allowCategoryUpdate }
+    this.modalService.openModal('editCategory', 'custom-modal-category', data, () => {
+      this.loadCategories()
     })
   }
 }

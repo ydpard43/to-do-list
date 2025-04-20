@@ -3,8 +3,7 @@ import { Observable } from 'rxjs';
 import { RemoteConfigService } from '../../infrastructure/services/remote-config/remote-config.service';
 import { ListCategoriesComponent } from './components/list-categories/list-categories.component';
 import { CATEGORIES_CONFIG } from './categories.config';
-import { AddCategoriesComponent } from './components/add-categories/add-categories.component';
-import { ModalController } from '@ionic/angular';
+import { ModalsService } from 'src/app/infrastructure/services/modal-service/modals.service';
 
 
 @Component({
@@ -23,7 +22,7 @@ export class CategoriesPage implements OnInit {
   public currentDate: Date = new Date();
   public config = CATEGORIES_CONFIG;
 
-  constructor(private remoteConfigService: RemoteConfigService, private modalController: ModalController) { }
+  constructor(private remoteConfigService: RemoteConfigService, private modalService: ModalsService) { }
 
   ngOnInit(): void {
     this.initRemoteConfig()
@@ -44,14 +43,8 @@ export class CategoriesPage implements OnInit {
   }
 
   public openAddModal() {
-    this.modalController.create({
-      component: AddCategoriesComponent,
-      cssClass: 'custom-modal-category'
-    }).then(async (modal) => {
-      await modal.present()
-      modal.onDidDismiss().then(() => {
-        this.loadCategories()
-      })
+    this.modalService.openModal('addCategory', 'custom-modal-category', {}, () => {
+      this.loadCategories()
     })
   }
 
