@@ -1,0 +1,12 @@
+<div class="search-container">
+  <ion-icon name="search-outline" class="search-icon"></ion-icon>
+  <ion-input
+    placeholder="{{ config.TEXTS.FILTER_INPUT_CATEGORY_PLACEHOLDER }}"
+    [(ngModel)]="filterQuery"
+    (ionInput)="onFilterChange()"
+    class="search-input">
+  </ion-input>
+  <ion-button *ngIf="filterQuery" size="small" fill="clear" color="danger" class="clear-icon" (click)="clearFilter()" >
+    <ion-icon name="close-outline"></ion-icon>
+  </ion-button>
+</div>
