@@ -91,7 +91,7 @@ export class AppModule {}
 
 ```bash
 git clone <URL_DEL_REPOSITORIO>
-cd todo-list
+cd to-do-list
 ```
 
 2. Instala dependencias:
@@ -151,6 +151,7 @@ app/
 │   ├── tasks/            # Funcionalidades de tareas
 │   ├── categories/       # Funcionalidades de categorías
 │   └── components/       # Header y elementos compartidos
+|   └── home/             # Pagina principal
 ```
 
 ---
