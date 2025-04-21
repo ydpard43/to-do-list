@@ -32,7 +32,7 @@ El proyecto sigue los principios de **Clean Architecture**, separando responsabi
 
 - **Angular 18** – Framework SPA principal
 - **Ionic 8** – Componentes UI móviles
-- **Capacitor 6** – Acceso a funciones nativas (Haptics, Status Bar, etc.)
+- **Cordova** – Acceso a funciones nativas (Haptics, Status Bar, etc.)
 - **Firebase 10** – Integración remota y backend opcional
 - **Crypto-JS** – Cifrado de datos locales
 - **Jasmine / Karma** – Pruebas unitarias
