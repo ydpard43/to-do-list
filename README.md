@@ -211,5 +211,6 @@ Puedes generar builds para Android e iOS utilizando **Cordova**. Asegúrate de t
 4. Desde Xcode, configura certificados, perfiles y ejecuta en un simulador o dispositivo real.
 
 > Nota: Para iOS necesitas una Mac con Xcode instalado.
+## Aplicación Desplegada
 
 [PWA](https://to-do-list-52b84.web.app/home/tasks)
