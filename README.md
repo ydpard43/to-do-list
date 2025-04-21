@@ -217,4 +217,4 @@ Puedes generar builds para Android e iOS utilizando **Cordova**. Asegúrate de t
 
 ## Desmostración
 
-[Demostracion app] (https://www.youtube.com/watch?v=t5kH1k7w2Uk)
+[Demostracion app](https://www.youtube.com/watch?v=t5kH1k7w2Uk)
