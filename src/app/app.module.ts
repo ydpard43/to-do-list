@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -12,9 +12,15 @@ import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { getRemoteConfig, provideRemoteConfig } from '@angular/fire/remote-config';
 import { CATEGORY_REPOSITORY_TOKEN } from './application/ports/category-repository.token';
 import { LocalStorageCategoryRepository } from './infrastructure/adapters/local-storage-categories.repository';
+import { ServiceWorkerModule } from '@angular/service-worker';
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot({ mode: 'md' }), AppRoutingModule],
+  imports: [BrowserModule, IonicModule.forRoot({ mode: 'md' }), AppRoutingModule, ServiceWorkerModule.register('ngsw-worker.js', {
+  enabled: !isDevMode(),
+  // Register the ServiceWorker as soon as the application is stable
+  // or after 30 seconds (whichever comes first).
+  registrationStrategy: 'registerWhenStable:30000'
+})],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: TASK_REPOSITORY_TOKEN, useClass: LocalStorageTaskRepository },
